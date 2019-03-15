@@ -2,6 +2,8 @@
 
 > Scroll-reveal react hook for creating beautifuly timed animations
 
+![size: 1.3kb](https://img.shields.io/github/size/robertthewolf/use-reveal/index.js.svg)
+
 ## Install
 
 ```bash
@@ -11,17 +13,18 @@ npm install --save use-reveal
 ## Usage
 
 ```jsx
-import React from 'react'
-
 import useReveal from 'use-reveal'
 
-const Example = () => {
+export default () => {
   const {ref, isRevealed, delay} = useReveal()
+  
   return (
     <div
       ref={ref}
-      className={isRevealed ? 'revealed' : 'hidden'}
-      data-delay={delay}
+      style={{
+        opacity: 0;
+        animation: isRevealed ? `fade .6s ease-out ${delay}s forwards` : 'none'
+      }}
     />
   )
 }

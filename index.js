@@ -1,40 +1,39 @@
-'use strict';
-let {useState} = require('react');
+var {useState} = require('react');
 
-function useReveal() {
+module.exports = function useReveal() {
 
-  const [isRevealed, setIsRevealed] = useState(typeof window === `undefined`);
-  const [delay, setDelay] = useState(0);
+  var [isRevealed, setIsRevealed] = useState(typeof window === `undefined`);
+  var [delay, setDelay] = useState(0);
 
-  const ref = (element) => {
+  var ref = (element) => {
 
         if (isRevealed || element === null) return;
         
-        let windowHeight = window.innerHeight;
-        let elementTop = element.getBoundingClientRect().top;
+        var windowHeight = window.innerHeight;
+        var elementTop = element.getBoundingClientRect().top;
 
         // set delay
-        const d = elementTop / windowHeight;
+        var d = elementTop / windowHeight;
         setDelay(d > 1 ? .2 : d < 0 ? 0 : d);
 
-        const cleanUp = () => {
+        var cleanUp = () => {
             window.removeEventListener('scroll', onScroll);
             window.removeEventListener('resize', onResize);
         }
 
-        const check = () => {
+        var check = () => {
             if (elementTop < windowHeight) {
                 setIsRevealed(true);
                 cleanUp();
             }
         }
 
-        const onScroll = () => {
+        var onScroll = () => {
             elementTop = element.getBoundingClientRect().top;
             check();
         }
 
-        const onResize = () => {
+        var onResize = () => {
             windowHeight = window.innerHeight;
             onScroll();
         }
@@ -48,5 +47,3 @@ function useReveal() {
 
   return ({ref, isRevealed, delay});
 }
-
-module.exports = useReveal;
